@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel de Gestión Académica | UAS</title><link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body class="panel-shell admin-shell">
+  <aside class="barra-lateral" id="barraLateral">
+    <div class="marca-panel"><img src="/img/logo-uas.png" alt="UAS"><div><strong>Gestión Académica</strong><span>Facultad de Informática</span></div></div>
+    <div class="nav-caption">MENÚ PRINCIPAL</div>
+    <nav class="navegacion-panel" aria-label="Navegación de administración">
+      <button class="enlace-panel activo" data-vista="inicio"><span>⌂</span>Inicio</button>
+      <button class="enlace-panel" data-vista="solicitudes"><span>▤</span>Solicitudes <b class="badge-nav" id="badgeSolicitudes">0</b></button>
+      <button class="enlace-panel" data-vista="reservas"><span>▦</span>Reservas</button>
+      <button class="enlace-panel" data-vista="nomina"><span>▧</span>Escaneo de nómina</button>
+      <button class="enlace-panel" data-vista="maestros"><span>♙</span>Cuentas de maestros</button>
+    </nav>
+    <button class="salir-panel" onclick="cerrarSesion()"><span>↪</span>Cerrar sesión</button>
+  </aside>
+  <main class="contenido-panel">
+    <header class="barra-superior"><button class="boton-menu" id="botonMenu" aria-label="Abrir menú">☰</button><div><p class="miga" id="miga">Panel de administración</p><h1 id="tituloVista">Panel de Gestión Académica</h1></div><button class="boton-campana" id="botonCampana" aria-label="Ver solicitudes pendientes">♧<span id="campanaCuenta">0</span></button></header>
+    <div class="toast-panel" id="toastPanel" role="status" hidden></div>
+
+    <section class="vista-admin activa" id="vista-inicio">
+      <div class="bienvenida-panel"><div><span class="eyebrow">UNIVERSIDAD AUTÓNOMA DE SINALOA</span><h2 id="saludoAdmin">Buen día</h2><p>Administra las solicitudes, reservas y documentos de la facultad.</p></div><img src="/img/logo-fic.png" alt="Facultad de Informática"></div>
+      <div class="resumen-panel">
+        <button class="tarjeta-resumen" data-ir="solicitudes"><span class="resumen-icono">▤</span><span>Solicitudes pendientes</span><strong id="totalPendientes">0</strong><small>Requieren revisión</small></button>
+        <button class="tarjeta-resumen" data-ir="reservas"><span class="resumen-icono">▦</span><span>Reservas registradas</span><strong id="totalReservas">0</strong><small>Auditorio y sala de juntas</small></button>
+        <button class="tarjeta-resumen" data-ir="reservas"><span class="resumen-icono">✓</span><span>Próximas reservas</span><strong id="proximasReservas">0</strong><small>Ya aprobadas</small></button>
+      </div>
+      <div class="panel-doble">
+        <article class="tarjeta-panel"><div class="encabezado-tarjeta"><div><span class="eyebrow">POR ATENDER</span><h2>Solicitudes pendientes</h2></div><button class="link-panel" data-ir="solicitudes">Ver todas →</button></div><div id="inicioPendientes" class="lista-resumen"></div></article>
+        <article class="tarjeta-panel"><div class="encabezado-tarjeta"><div><span class="eyebrow">ESPACIOS</span><h2>Reservas próximas</h2></div><button class="link-panel" data-ir="reservas">Consultar →</button></div><div id="inicioReservas" class="lista-resumen"></div></article>
+      </div>
+    </section>
+
+    <section class="vista-admin" id="vista-solicitudes">
+      <div class="intro-vista"><span class="eyebrow">BANDEJA DE ENTRADA</span><h2>Revisar solicitudes</h2><p>Consulta la información completa y aprueba o rechaza solicitudes de maestros.</p></div>
+      <div class="filtros-solicitud"><button class="filtro-chip seleccionado" data-filtro="pendiente">Pendientes</button><button class="filtro-chip" data-filtro="todas">Todas</button><select id="filtroTipoSolicitud" aria-label="Filtrar solicitudes"><option value="">Todos los trámites</option><option value="reserva">Reservas</option><option value="dia_economico">Días económicos</option><option value="justificante">Justificantes</option></select></div>
+      <div id="listaSolicitudes" class="lista-solicitudes"></div>
+    </section>
+
+    <section class="vista-admin" id="vista-reservas">
+      <div class="intro-vista"><span class="eyebrow">AUDITORIO Y SALA DE JUNTAS</span><h2>Consultar reservas</h2><p>Revisa solicitudes recibidas y reservas aprobadas o rechazadas.</p></div>
+      <div class="filtros-solicitud"><select id="filtroEstadoReserva"><option value="">Todos los estados</option><option value="pendiente">Pendientes</option><option value="aprobada">Aprobadas</option><option value="rechazada">Rechazadas</option></select><select id="filtroSalaReserva"><option value="">Todos los espacios</option><option>Auditorio</option><option>Sala de Juntas</option></select></div>
+      <div id="listaReservas" class="lista-solicitudes"></div>
+    </section>
+
+    <section class="vista-admin" id="vista-nomina">
+      <div class="intro-vista"><span class="eyebrow">DOCUMENTOS</span><h2>Escaneo de nómina</h2><p>Captura o carga las hojas de nómina, ordénalas y guárdalas como un único PDF.</p></div>
+      <article class="tarjeta-panel nomina-panel no-imprimir"><div class="nomina-instrucciones"><div class="nomina-icono">▧</div><div><h3>Digitalizar hojas</h3><p>Usa la cámara del teléfono o selecciona imágenes guardadas. Puedes añadir varias páginas.</p></div></div><label class="boton azul boton-archivo" for="paginasNomina">📷 Escanear o cargar páginas</label><input id="paginasNomina" type="file" accept="image/*" capture="environment" multiple hidden><p id="mensajeNomina" class="texto-ayuda">En la ventana de impresión elige «Guardar como PDF» para exportar el documento.</p><div class="acciones-nomina"><button class="boton gris" id="vaciarNomina">Quitar todas las hojas</button><button class="boton azul" id="exportarNomina" disabled>Exportar a PDF</button></div></article>
+      <div id="vistaPaginasNomina" class="rejilla-nomina"></div>
+    </section>
+
+    <section class="vista-admin" id="vista-maestros">
+      <div class="intro-vista"><span class="eyebrow">ACCESO INSTITUCIONAL</span><h2>Cuentas de maestros</h2><p>Registra a cada maestro con su número de trabajador. Se genera una contraseña temporal aleatoria de 12 caracteres.</p></div>
+      <div class="panel-doble panel-cuentas"><form class="tarjeta-panel formulario-panel" id="formMaestro"><h3>Crear cuenta</h3><label for="cuentaMaestro">Número de trabajador</label><input id="cuentaMaestro" required maxlength="30" autocomplete="off"><label for="nombreMaestro">Nombre(s)</label><input id="nombreMaestro" required maxlength="80" autocomplete="given-name"><label for="apellidosMaestro">Apellidos</label><input id="apellidosMaestro" required maxlength="100" autocomplete="family-name"><label for="claveMaestro">Contraseña personalizada (opcional)</label><input id="claveMaestro" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Mínimo 8 caracteres; vacío = aleatoria"><p class="texto-ayuda">Puedes asignar una contraseña o dejar el campo vacío para generar una aleatoria.</p><button class="boton azul" type="submit">Crear cuenta de maestro</button><div id="resultadoClave" class="clave-generada" hidden></div><p id="mensajeMaestro" class="mensaje-formulario"></p></form><article class="tarjeta-panel"><div class="encabezado-tarjeta"><h3>Maestros registrados</h3><button class="link-panel" id="recargarMaestros">Actualizar</button></div><div id="listaMaestros" class="lista-maestros"></div></article></div>
+    </section>
+    <footer class="pie-panel">Sistema de Gestión Académica · Facultad de Informática · UAS</footer>
+  </main>
+  <div class="fondo-lateral" id="fondoLateral"></div>
+  <script src="/js/panel.js?v=20260929f"></script>
+</body>
+</html>

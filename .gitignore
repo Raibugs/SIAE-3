@@ -1,0 +1,9 @@
+node_modules/
+checador.db
+checador.db-*
+*.db-wal
+*.db-shm
+uploads/
+.env
+.DS_Store
+.vscode/

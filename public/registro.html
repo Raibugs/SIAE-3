@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Crear cuenta de maestro | Gestión UAS</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body class="portada-pagina login-gestion">
+  <main class="portada-centro">
+    <section class="tarjeta-portada tarjeta-login">
+      <div class="logos-portada"><img src="/img/logo-uas.png" alt="UAS"><img src="/img/logo-fic.png" alt="Facultad de Informática"></div>
+      <p class="nombre-universidad">Universidad Autónoma de Sinaloa</p>
+      <p class="nombre-facultad">Facultad de Informática</p>
+      <div class="separador-portada"></div>
+      <span class="eyebrow">ALTA DE MAESTRO</span>
+      <h1>Crear cuenta</h1>
+      <p class="descripcion-portada">Registra tus datos laborales para solicitar reservas y permisos.</p>
+      <form id="formRegistro" class="formulario-login">
+        <label for="registroCuenta">Número de trabajador</label>
+        <input id="registroCuenta" autocomplete="username" required maxlength="30" placeholder="Tu número de trabajador">
+        <label for="registroNombre">Nombre(s)</label>
+        <input id="registroNombre" autocomplete="given-name" required maxlength="80" placeholder="Nombre(s)">
+        <label for="registroApellidos">Apellidos</label>
+        <input id="registroApellidos" autocomplete="family-name" required maxlength="100" placeholder="Apellidos">
+        <label for="registroClave">Crear contraseña</label>
+        <input id="registroClave" type="password" autocomplete="new-password" minlength="8" required placeholder="Mínimo 8 caracteres">
+        <label for="registroConfirmar">Confirmar contraseña</label>
+        <input id="registroConfirmar" type="password" autocomplete="new-password" minlength="8" required placeholder="Repite tu contraseña">
+        <button class="boton azul" type="submit">CREAR CUENTA DE MAESTRO</button>
+        <p id="mensajeRegistro" role="status"></p>
+      </form>
+      <a class="volver-inicio" href="/login.html">Volver al inicio de sesión</a>
+    </section>
+  </main>
+  <script src="/js/registro.js?v=20260929a"></script>
+</body>
+</html>

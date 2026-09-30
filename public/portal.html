@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portal del maestro | UAS</title><link rel="stylesheet" href="/css/estilo.css"></head>
+<body class="panel-shell maestro-shell">
+  <aside class="barra-lateral">
+    <div class="marca-panel"><img src="/img/logo-uas.png" alt="UAS"><div><strong>Portal del maestro</strong><span>Facultad de Informática</span></div></div>
+    <div class="nav-caption">TRÁMITES</div>
+    <nav class="navegacion-panel" aria-label="Trámites de maestro">
+      <button class="enlace-panel activo" data-maestro-vista="reserva"><span>▦</span>Apartar un espacio</button>
+      <button class="enlace-panel" data-maestro-vista="economico"><span>▣</span>Día económico</button>
+      <button class="enlace-panel" data-maestro-vista="justificante"><span>▤</span>Justificar un día</button>
+      <button class="enlace-panel" data-maestro-vista="mis-solicitudes"><span>◷</span>Mis solicitudes</button>
+    </nav>
+    <div class="perfil-maestro"><span class="avatar-maestro" id="avatarMaestro">M</span><div><strong id="nombreSesion">Maestro</strong><small id="cuentaSesion"></small></div></div>
+    <button class="salir-panel" onclick="cerrarSesionMaestro()"><span>↪</span>Cerrar sesión</button>
+  </aside>
+  <main class="contenido-panel">
+    <header class="barra-superior"><button class="boton-menu" id="botonMenuMaestro" aria-label="Abrir menú">☰</button><div><p class="miga">PORTAL DEL MAESTRO</p><h1 id="tituloMaestroVista">Solicitar apartado de espacio</h1></div><img class="logo-superior" src="/img/logo-fic.png" alt="FIC"></header>
+    <div class="toast-panel" id="mensajeMaestro" role="status" hidden></div>
+
+    <section class="vista-maestro activa" id="maestro-reserva">
+      <div class="intro-vista"><span class="eyebrow">RESERVACIÓN DE ESPACIOS</span><h2>Apartar un espacio</h2><p>Envía la solicitud de uso del Auditorio o la Sala de Juntas al administrador.</p></div>
+      <form class="tarjeta-panel formulario-solicitud" id="formReserva">
+        <div class="rejilla-formulario">
+          <div class="campo-form"><label for="espacioReserva">Espacio solicitado</label><select id="espacioReserva" required><option value="">Selecciona un espacio</option><option>Auditorio</option><option>Sala de Juntas</option></select></div>
+          <div class="campo-form"><label for="fechaReserva">Fecha</label><input id="fechaReserva" type="date" required></div>
+          <div class="campo-form"><label for="horaInicioReserva">Hora de inicio</label><input id="horaInicioReserva" type="time" min="07:00" max="19:00" required></div>
+          <div class="campo-form"><label for="horaFinReserva">Hora de término</label><input id="horaFinReserva" type="time" min="07:00" max="19:00" required></div>
+          <div class="campo-form"><label for="solicitadoPor">Solicitado por</label><input id="solicitadoPor" readonly></div>
+        </div>
+        <div class="especificaciones-auditorio" id="especificacionesAuditorio" hidden><h3>Actividad y especificaciones</h3><p>Marca la actividad o los servicios que se requieren.</p><div class="opciones-especificacion"><label><input type="checkbox" name="actividadAuditorio" value="Limpieza"> Limpieza</label><label><input type="checkbox" name="actividadAuditorio" value="Micrófono"> Micrófono</label><label><input type="checkbox" name="actividadAuditorio" value="Proyector"> Proyector</label><label><input type="checkbox" name="actividadAuditorio" value="HDMI"> HDMI</label><label><input type="checkbox" name="actividadAuditorio" value="Coffee break"> Coffee break</label><label><input type="checkbox" name="actividadAuditorio" value="Clase"> Clase</label></div></div>
+        <div class="campo-form campo-completo"><label for="observacionesReserva">Observaciones</label><textarea id="observacionesReserva" rows="4" maxlength="1200" placeholder="Información adicional para la reservación"></textarea></div>
+        <div class="nota-formulario">El envío queda pendiente de aprobación. El administrador revisará los datos y el horario antes de confirmar el espacio.</div>
+        <button class="boton azul" type="submit">Enviar solicitud</button>
+      </form>
+    </section>
+
+    <section class="vista-maestro" id="maestro-economico">
+      <div class="intro-vista"><span class="eyebrow">SOLICITUD PERSONAL</span><h2>Solicitar días económicos</h2><p>Selecciona hasta cinco fechas disponibles y envíalas juntas en una sola solicitud. Solo se permiten martes, miércoles y jueves.</p></div>
+      <article class="tarjeta-panel calendario-panel"><div class="calendario-cabecera"><button class="boton-calendario" id="mesAnterior" aria-label="Mes anterior">‹</button><h3 id="tituloMes"></h3><button class="boton-calendario" id="mesSiguiente" aria-label="Mes siguiente">›</button></div><div class="calendario-dias" id="calendarioDias"></div><div class="leyenda-calendario"><span><i class="dia-disponible"></i>Disponible</span><span><i class="dia-bloqueado"></i>Fecha no disponible</span><span><i class="dia-vacacion"></i>Periodo vacacional</span></div><p id="fechaEconomicaElegida" class="fecha-elegida">Selecciona de 1 a 5 martes, miércoles o jueves.</p><button class="boton azul" id="enviarDiaEconomico" disabled>Enviar solicitud</button><p class="texto-ayuda">No se permiten fechas dentro de los 15 días anteriores o posteriores a vacaciones del calendario escolar UAS. Límite anual: 13 días.</p></article>
+    </section>
+
+    <section class="vista-maestro" id="maestro-justificante">
+      <div class="intro-vista"><span class="eyebrow">SOLICITUD DE JUSTIFICACIÓN</span><h2>Justificar un día</h2><p>Selecciona una fecha de lunes a viernes y el motivo correspondiente. El administrador recibirá tu solicitud.</p></div>
+      <form class="tarjeta-panel formulario-panel formulario-justificante" id="formJustificante"><label for="fechaJustificante">Fecha a justificar</label><input id="fechaJustificante" type="date" required><label for="motivoJustificante">Motivo</label><select id="motivoJustificante" required><option value="">Selecciona un motivo</option><option>Operación médica</option><option>Fallecimiento</option><option>Enfermedad</option><option>Problema familiar</option></select><label for="detalleJustificante">Información adicional</label><textarea id="detalleJustificante" rows="4" maxlength="2000" placeholder="Puedes añadir una breve explicación"></textarea><button class="boton azul" type="submit">Enviar justificante</button></form>
+    </section>
+
+    <section class="vista-maestro" id="maestro-mis-solicitudes">
+      <div class="intro-vista"><span class="eyebrow">SEGUIMIENTO</span><h2>Mis solicitudes</h2><p>Consulta el estado de tus reservaciones, días económicos y justificantes.</p></div><div id="misSolicitudes" class="lista-solicitudes"></div>
+    </section>
+    <footer class="pie-panel">Sistema de Gestión Académica · Facultad de Informática · UAS</footer>
+  </main>
+  <div class="fondo-lateral" id="fondoLateralMaestro"></div>
+  <script src="/js/maestro.js?v=20260929c"></script>
+</body>
+</html>
